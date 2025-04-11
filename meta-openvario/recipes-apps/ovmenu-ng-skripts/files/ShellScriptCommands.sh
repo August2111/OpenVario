@@ -94,6 +94,9 @@ Search(2):      \([^()]*(\([^()]*\)[^()]*)*\)
 *** Ersetzen klappt noch gar nicht!
 (Ersetzen:       $1 oder \1)
 
+Search(1):      _T\([^()]*.\)
+_T\([^()]*(\([^()]*\)[^()]*)*\)
+
 =============================================================
 # Recursives Löschen:
 # Nur mit echo
