@@ -7,8 +7,9 @@ PR="r23.2"
 require openvario.inc
 
 # SRC_URI = "git://github.com/OpenSoaring/OpenSoar.git;protocol=https;branch=master " 
-SRC_URI = "git:///mnt/d/Projects/OpenSoaring/OpenSoar/.git/;protocol=file;branch=dev-branch;tag=opensoar-7.43p2.23 "
-SRC_URI = "git:///mnt/d/Projects/OpenSoaring/OpenSoar/.git/;protocol=file;branch=dev-branch "
+SRC_URI = "git://github.com/August2111/OpenSoar.git;protocol=https;branch=master " 
+# SRC_URI = "git:///mnt/d/Projects/OpenSoaring/OpenSoar/.git/;protocol=file;branch=dev-branch;tag=opensoar-7.43p2.23 "
+# SRC_URI = "git:///mnt/d/Projects/OpenSoaring/OpenSoar/.git/;protocol=file;branch=dev-branch "
 # OpenSoar Tag: v7.43-2.23
 SRCREV = "${AUTOREV}"
 
