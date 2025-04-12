@@ -1,3 +1,9 @@
+#### Version v3.23.1  - 2025/06/26
+------------------------------
+* OpenSoar (v7.43-3.23.7) has SkySight integration with live view (satellite and rain)
+* last official XCSoar version 7.43
+* main changes in OpenSoar and in XCSoar, not so much in OpenVario itself  
+
 #### Version v3.22.0  - 2024/05/27
 ------------------------------
 * Integration OpenVario menu in OpenSoar 'Setup System' menu
