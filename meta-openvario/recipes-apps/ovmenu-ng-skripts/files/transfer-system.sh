@@ -44,25 +44,6 @@ BACKUP=openvario/backup
 # MAC address of the Ethernet device eth0 to do a separate backup
 MAC=`ip li|grep -A 1 eth0|tail -n 1|cut -d ' ' -f 6|sed -e s/:/-/g`
 
-#### aug 2024-01-03 # Restore Shell Function: calls rsync with unified options. 
-#### aug 2024-01-03 # Copies all files and dirs from source recursively. Parameters:
-#### aug 2024-01-03 # $1 source
-#### aug 2024-01-03 # $2 target
-#### aug 2024-01-03 # $3 comment about type of items
-#### aug 2024-01-03 restore() {
-#### aug 2024-01-03 	if 
-#### aug 2024-01-03 		# We use --checksum here due to cubieboards not having an rtc clock
-#### aug 2024-01-03 		rsync --recursive --mkpath --checksum --quiet --progress "$1" "$2"
-#### aug 2024-01-03 		test ${RSYNC_EXIT:=$?} -eq 0
-#### aug 2024-01-03 	then
-#### aug 2024-01-03 		echo " [####======] All $3 files have been restored."
-#### aug 2024-01-03 	else 
-#### aug 2024-01-03 		>&2 echo " An rsync error $RSYNC_EXIT has occurred!"
-#### aug 2024-01-03 	fi
-#### aug 2024-01-03 	# Provident system buffer sync to help later syncs finish quicker
-#### aug 2024-01-03 	sync&
-#### aug 2024-01-03 }
-
 case "$TRANSFER_OPTION" in
 backup)
 	echo ' [##========] System check ...'
@@ -93,10 +74,14 @@ backup)
 		mkdir -p /home/root/profile-settings
 		PROFILE_FILE=`basename "$PROFILE"`
 		PROFILE_NAME=${PROFILE_FILE%.*}
-		if lsattr "$PROFILE" | cut -b 5 | fgrep -q i; 
-		then echo protected
-		else echo unprotected
-		fi > /home/root/profile-settings/$PROFILE_NAME 
+		if which lsattr; then
+			if lsattr "$PROFILE" | cut -b 5 | fgrep -q i; 
+			then echo protected
+			else echo unprotected
+			fi > /home/root/profile-settings/$PROFILE_NAME 
+		else
+			echo 'lsattr' is NOT available
+		fi
 	done
 	' -- {} +
 	fi
@@ -107,23 +92,23 @@ backup)
 	echo ' [####======] Starting backup ...'
 	# Copy all directories and files from list below to backup directory recursively.
 	# We use --checksum here due to cubieboards not having an rtc clock
+        if [ -f /etc/udev/rules.d/libinput-ts.rules ]; then LIBINPUT_RULES="/etc/udev/rules.d/libinput-ts.rules"; fi
 	if 
 		rsync --files-from - --archive --recursive --quiet \
 			--relative --mkpath --checksum --safe-links --progress \
 			/ "$USB_PATH/$BACKUP/$MAC"/ <<-LISTE
-				/etc/udev/rules.d/libinput-ts.rules
 				/etc/dropbear
 				/home/root
 				/opt/conf
 				/var/lib/connman
 				/boot/config.uEnv
+				$LIBINPUT_RULES
 			LISTE
 		test ${RSYNC_EXIT:=$?} -eq 0
 	then
-		if 
-        rsync --files-from - --archive --recursive --quiet \
-		      --relative --mkpath --checksum --safe-links \
-		      --progress "$USB_PATH/$BACKUP/$MAC"  /etc/pointercal
+		rsync --files-from - --archive --recursive --quiet \
+			--relative --mkpath --checksum --safe-links \
+			--progress "$USB_PATH/$BACKUP/$MAC"  /etc/pointercal
 		test ${RSYNC_EXIT:=$?} -eq 0
 		echo ' [######====] All files and settings have been backed up.'
 	else 
