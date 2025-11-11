@@ -1,3 +1,33 @@
+#### Version v3.23.3  - not yet released
+------------------------------
+* OpenSoar v7.43-3.23.9
+* last official XCSoar version 7.43
+* cleanup the bloated commit history 
+remove DISTRO_VERSION from (temporary) IMAGE_NAME
+fix_cpu_freq.sh - revert cpu freq. to overclocked 1.008 GHz like device tree
+variod-testing_git.bb - change git source
+sensord-testing_git.bb - change git source
+openvario-image-testing.bb - change sensord-testing/variod-testing to sensord/variod
+[doc] ShellScriptCommands.sh - add some shell commands (date)
+- extend with Search and Replace / Regex (part 1)
+[backup] transfer-system.sh - try to separate pointercal from upgrade
+change boost to 1.85.0 in OpenSoar7.42.22 and XCSoar 7.43
+[script] extend ShellScriptCommands.sh
+* string manipulation
+* search and replace with regex
+ShellScriptCommands.sh - add some (German) explains of usefull shell script commands
+add some libraries to opensoar.inc for SkySight integration of XCSoar
+For using SkySight in OpenSoar a lot of additional libraries necessary:
+- netcdf url and netcdf_cxx url
+- geotiff
+- but w/o GeoTiff up to now (no available)
+
+OpenVario.config (or opensoar.inc?) added for selection XCSoar and OpenSoar
+remove obsolete ov-tools
+fw-upgade.sh  - usage of shorter version numbers (3.23 instead of 3.23.1)
+* up to 12/2026 don't use the short version numbers because compatibility
+* only usefull for later updates
+
 #### Version v3.23.2  - 2025/07/17
 ------------------------------
 * OpenSoar (v7.43-3.23.8) has SkySight integration with live view (satellite and rain)
