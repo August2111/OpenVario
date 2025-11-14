@@ -78,7 +78,7 @@ SRC_URI += " \
 inherit pkgconfig
 addtask do_package_write_ipk after do_package
 
-EXTRA_OEMAKE = " \
+EXTRA_OEMAKE += " \
 	HOSTCC='${BUILD_CC}' \
 	HOSTCXX='${BUILD_CXX}' \
 	AR='${AR}' \
